@@ -64,3 +64,7 @@ app.delete("/books/:id", (req, res) => {
 
 
 export default app;
+
+/*
+mongodb+srv://admina:<password>@cluster0.qtjvi0c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+*/
