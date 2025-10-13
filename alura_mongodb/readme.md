@@ -1,0 +1,1 @@
+uso do postman pra facilitar o crud da api
