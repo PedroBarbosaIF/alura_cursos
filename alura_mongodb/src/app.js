@@ -57,9 +57,7 @@ app.delete("/books/:id", (req, res) => {
     res.status(200).send("book deleted!");
 });
 
-
 export default app;
-
 /*
 mongodb+srv://admina:<password>@cluster0.qtjvi0c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 */

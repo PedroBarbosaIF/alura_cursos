@@ -1,7 +1,9 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 
+
 async function conectToDB() {
-    mongoose.connect("mongodb+srv://admin:@cluster0.qtjvi0c.mongodb.net/library?retryWrites=true&w=majority&appName=Cluster0");
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
 
     return mongoose.connection;
 }
