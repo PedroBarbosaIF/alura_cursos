@@ -1,26 +1,20 @@
 import express from 'express';
+import conectToDB from './config/dbConnect.js';
+import book from './models/Book.js';
 const app = express();
 
+const connection = await conectToDB();
+
+connection.on("error", (error) => {
+    console.error("Connection failed, error: " + error);
+});
+
+connection.once('open', () => {
+    console.log("conection is on with mongoDB")
+})
 
 app.use(express.json());
 
-
-const books = [
-    {
-        id: 1,
-        title: 'the lord of the rings'
-    },
-    {
-        id: 2,
-        title: 'the hobbit'
-    }
-];
-
-function searchBook(id){
-    return books.findIndex(book => {
-        return book.id === Number(id);
-    });
-};
 
 //início
 app.get("/", (req,res) =>{
@@ -29,8 +23,9 @@ app.get("/", (req,res) =>{
 
 
 //rota GET com todos os livros
-app.get("/books", (req,res) => {
-    res.status(200).json(books);
+app.get("/books", async (req,res) => {
+    const booksList = await book.find({});
+    res.status(200).json(booksList);
 });
 
 //rota GET com livro específico usando parâmetro id
