@@ -15,7 +15,8 @@ routes.get("/books/:id", BookController.listBookById);
 //ATUALIZAR um livro pelo ID
 routes.put("/books/:id", BookController.updateBookById);
 
-
+//DELETE a book by ID
+routes.delete("/books/:id", BookController.deleteBookById);
 
 //routes.post("/books");
 

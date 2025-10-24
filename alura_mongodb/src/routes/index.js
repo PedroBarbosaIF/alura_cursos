@@ -1,5 +1,4 @@
 import express from "express";
-import BookController from "../controllers/livroController.js";
 import booksRoutes from "./booksRoutes.js";
 
 const routes = (app) => {
