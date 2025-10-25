@@ -17,17 +17,28 @@ class BookController {
     //list ONE book
     static async listBookById(req, res) {
         try {
+            /*
             const id = req.params.id;
             const especificBook = await book.findById(id);
             const especificAutor = await autor.findById(especificBook.autor);
 
-            //united is putting especificAutor in especificBook.autor
-            const united = {
-                ...especificBook._doc,
-                autor: { ...especificAutor._doc },
-            };
+            if (especificAutor != null) {
+                //united is putting especificAutor in especificBook.autor
+                const united = {
+                    ...especificBook._doc,
+                    autor: { ...especificAutor._doc },
+                };
 
-            res.status(200).json(united);
+                res.status(200).json({ bookFound: united });
+            }
+            else if (especificAutor == null){
+                res.status(200).json({ bookFound: especificBook }); 
+            }
+            */
+            const id = req.params.id;
+            const especificBook = await book.findById(id).populate("autor");
+            res.status(200).json({ bookFound: especificBook });
+
         } catch (error) {
             res.status(500).json({
                 message: `finding book failed.`,
