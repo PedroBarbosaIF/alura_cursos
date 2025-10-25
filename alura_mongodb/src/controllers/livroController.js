@@ -1,4 +1,5 @@
 import book from "../models/Book.js";
+import { autor } from "../models/Autor.js";
 
 class BookController {
     //list ALL books
@@ -17,24 +18,50 @@ class BookController {
     static async listBookById(req, res) {
         try {
             const id = req.params.id;
-            const especifBook = await book.findById(id);
-            res.status(200).json(especifBook);
+            const especificBook = await book.findById(id);
+            const especificAutor = await autor.findById(especificBook.autor);
+
+            //united is putting especificAutor in especificBook.autor
+            const united = {
+                ...especificBook._doc,
+                autor: { ...especificAutor._doc },
+            };
+
+            res.status(200).json(united);
         } catch (error) {
             res.status(500).json({
                 message: `finding book failed.`,
-                error: `${error.message}`
+                error: `${error.message}`,
             });
         }
     }
 
     //registerABook
     static async registerBook(req, res) {
+        const newBook = req.body;
         try {
-            const newBook = await book.create(req.body);
-            res.status(201).json({
-                message: "book was registered!",
-                book: newBook,
-            });
+            //const newBook = await book.create(req.body);
+
+            const especificAutor = await autor.findById(newBook.autor);
+
+            if (especificAutor != null) {
+                const united = await book.create({
+                    ...newBook,
+                    autor: especificAutor.id,
+                });
+
+                res.status(201).json({
+                    message: "book was registered!",
+                    book: united,
+                });
+            } else if (especificAutor == null) {
+                const newBook = await book.create(req.body);
+
+                res.status(201).json({
+                    message: "book was registered!",
+                    book: newBook,
+                });
+            }
         } catch (error) {
             res.status(500).json({
                 message: `${error.message} - book registry failed`,
@@ -51,7 +78,7 @@ class BookController {
             res.status(200).json({
                 message: "book updated",
                 olDbook: oldBook,
-                newBook: newBook
+                newBook: newBook,
             });
         } catch (error) {
             res.status(500).json({

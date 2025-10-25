@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const bookSchema = new mongoose.Schema({
     id: {type: mongoose.Schema.Types.ObjectId},
     title: {type: String, required: true},
-    autor: {type: String, required: true},
+    autor: {type: mongoose.Schema.Types.ObjectId, ref: 'autors'},
     publisher: {type: String},
     price: {type: Number},
-    pages: {type: Number}
+    pages: {type: Number},
 }, {versionKey: false});
 
 const book = mongoose.model("books", bookSchema);
