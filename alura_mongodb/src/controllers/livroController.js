@@ -37,8 +37,14 @@ class BookController {
             */
             const id = req.params.id;
             const especificBook = await book.findById(id).populate("autor");
-            res.status(200).json({ bookFound: especificBook });
-
+            const response = {
+                _id: especificBook._id,
+                title: especificBook.title,
+                autor: especificBook.autor,
+                price: especificBook.price,
+                publisher: especificBook.publisher
+            };
+            res.status(200).json({ bookFound: response });
         } catch (error) {
             res.status(500).json({
                 message: `finding book failed.`,
@@ -85,7 +91,7 @@ class BookController {
         try {
             const id = req.params.id;
             const oldBook = await book.findByIdAndUpdate(id, req.body);
-            const newBook = await book.findById(id);
+            const newBook = await book.findById(id).populate('autor');
             res.status(200).json({
                 message: "book updated",
                 olDbook: oldBook,
