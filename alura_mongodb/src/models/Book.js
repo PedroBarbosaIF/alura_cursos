@@ -6,6 +6,7 @@ const bookSchema = new mongoose.Schema({
     
     //ref deve referenciar o model da coleção estrangeira
     autor: {type: mongoose.Schema.Types.ObjectId, ref: 'autores'},
+    autors: [{type: mongoose.Schema.Types.ObjectId, ref: 'autores'}],
     publisher: {type: String},
     price: {type: Number},
     pages: {type: Number},
